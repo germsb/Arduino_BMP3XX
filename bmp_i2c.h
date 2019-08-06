@@ -1,22 +1,22 @@
-#include "../bosch_api/bmp3.h"
+#define BMP3_DOUBLE_PRECISION_COMPENSATION
+#include "bmp3.h"
 #include "Arduino.h"
+#include <Wire.h>
 //#define BMP3XX_DEBUG
 
 struct bmp_data
 {
     double seaLevelPressure = 101325.0;
-    double temperature;
-    double pressure;
-    double altitude;
+    double temperature = -99999;
+    double pressure = -99999;
+    double altitude = -99999;
 };
 
-class BMP3
+class BMP3_I2C
 {
 public:
-    BMP3();
-
-    bool init(void);
-
+    BMP3_I2C(uint8_t addr = 0x77, TwoWire *theWire = &Wire);
+    bool init();
     /**************************************************************************/
     /*!
         @brief Put the sensor in forced mode with desired settings. Call performReading() or readAltitude() to get datas.
@@ -56,15 +56,19 @@ public:
     bool setSensorInSleepMode(void);
 
     /// Perform a reading in blocking mode
-    bool getSensorData(bmp_data *sensorData, bool computeAltitude = false);
+    bool getSensorData(bmp_data &sensorData, bool computeAltitude = false);
 
-    bool getSeaLevelPressure(bmp_data *sensorData, double YourActualAltitude);
+    bool calcSeaLevelPressure(bmp_data &sensorData, double YourActualAltitude);
+
+    double calcAltitude(double atmospheriquePressure, double seaLevelPressure);
 
 protected:
     bmp3_dev the_sensor;
+    bool initSensor(void);
 
 private:
     bool _forcedModeEnabled;
+    uint8_t i2c_addr;
     bool setConfig(
         uint8_t TemperatureOversampling = BMP3_NO_OVERSAMPLING,
         uint8_t PressureOversampling = BMP3_NO_OVERSAMPLING,
@@ -72,5 +76,4 @@ private:
         uint8_t PowerMode = BMP3_FORCED_MODE,
         uint8_t OutputDataRate = BMP3_ODR_200_HZ,
         bool DataReadyInterrupt = false);
-    double getAltitude(double atmospheriquePressure, double seaLevelPressure = 101325);
 };
