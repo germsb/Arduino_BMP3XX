@@ -1,3 +1,6 @@
+#ifndef __i2C_H__
+#define __i2c_H__
+
 #define BMP3_DOUBLE_PRECISION_COMPENSATION
 #include "bmp3.h"
 #include "Arduino.h"
@@ -77,3 +80,4 @@ private:
         uint8_t OutputDataRate = BMP3_ODR_200_HZ,
         bool DataReadyInterrupt = false);
 };
+#endif

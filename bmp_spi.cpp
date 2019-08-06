@@ -1,4 +1,4 @@
-#include "../bmp_spi.h"
+#include "bmp_spi.h"
 
 int8_t _BMP3_SoftwareSPI_MOSI; ///< Global SPI MOSI pin
 int8_t _BMP3_SoftwareSPI_MISO; ///< Global SPI MISO pin

@@ -1,4 +1,4 @@
-#include "../bmp_i2c.h"
+#include "bmp_i2c.h"
 TwoWire *_BMP3_i2c;
 
 static int8_t i2c_write(uint8_t dev_id, uint8_t reg_addr, uint8_t *reg_data, uint16_t len);
@@ -34,7 +34,7 @@ bool BMP3_I2C::setSensorInSleepMode(void)
   return rslt == BMP3_OK;
 }
 
-bool BMP3_I2C::getSensorData(bmp_data &sensorData, bool computeAltitude = false)
+bool BMP3_I2C::getSensorData(bmp_data &sensorData, bool computeAltitude)
 {
   int8_t rslt;
 
