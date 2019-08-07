@@ -1,7 +1,6 @@
-#ifndef __i2C_H__
-#define __i2c_H__
+#ifndef _bmp_i2c_h
+#define _bmp_i2c_h
 
-#define BMP3_DOUBLE_PRECISION_COMPENSATION
 #include "bmp3.h"
 #include "Arduino.h"
 #include <Wire.h>
@@ -19,7 +18,9 @@ class BMP3_I2C
 {
 public:
     BMP3_I2C(uint8_t addr = 0x77, TwoWire *theWire = &Wire);
+
     bool init();
+
     /**************************************************************************/
     /*!
         @brief Put the sensor in forced mode with desired settings. Call performReading() or readAltitude() to get datas.
@@ -59,14 +60,16 @@ public:
     bool setSensorInSleepMode(void);
 
     /// Perform a reading in blocking mode
-    bool getSensorData(bmp_data &sensorData, bool computeAltitude = false);
+    bool getSensorData(bmp_data *sensorData, bool computeAltitude = false);
 
-    bool calcSeaLevelPressure(bmp_data &sensorData, double YourActualAltitude);
+    bool calcSeaLevelPressure(bmp_data *sensorData, double YourActualAltitude);
 
-    double calcAltitude(double atmospheriquePressure, double seaLevelPressure);
+    double calcSeaLevelPressure(double atmosphericPressure, double YourActualAltitude);
+
+    double calcAltitude(double atmosphericPressure, double seaLevelPressure);
 
 protected:
-    bmp3_dev the_sensor;
+    struct bmp3_dev the_sensor;
     bool initSensor(void);
 
 private:

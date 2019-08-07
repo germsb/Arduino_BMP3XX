@@ -7,11 +7,10 @@ static void delay_msec(uint32_t ms);
 
 ///constucteur
 
-BMP3_I2C::BMP3_I2C(uint8_t addr, TwoWire *theWire)
+BMP3_I2C::BMP3_I2C(uint8_t addr, TwoWire *theWire) : i2c_addr(addr)
 {
   printf("helllo la terre de bmp_i2c");
   _BMP3_i2c = theWire;
-  i2c_addr = addr;
 }
 
 /// public
@@ -34,7 +33,7 @@ bool BMP3_I2C::setSensorInSleepMode(void)
   return rslt == BMP3_OK;
 }
 
-bool BMP3_I2C::getSensorData(bmp_data &sensorData, bool computeAltitude)
+bool BMP3_I2C::getSensorData(bmp_data *sensorData, bool computeAltitude)
 {
   int8_t rslt;
 
@@ -66,23 +65,33 @@ bool BMP3_I2C::getSensorData(bmp_data &sensorData, bool computeAltitude)
     return false;
 
   /* Save the temperature and pressure data */
-  sensorData.temperature = data.temperature;
-  sensorData.pressure = data.pressure;
+  sensorData->temperature = data.temperature;
+  sensorData->pressure = data.pressure;
   if (computeAltitude)
   {
-    sensorData.altitude = calcAltitude(sensorData.pressure, sensorData.seaLevelPressure);
+    sensorData->altitude = calcAltitude(sensorData->pressure, sensorData->seaLevelPressure);
   }
   return true;
 }
 
-bool BMP3_I2C::calcSeaLevelPressure(bmp_data &sensorData, double YourActualAltitude)
+bool BMP3_I2C::calcSeaLevelPressure(bmp_data *sensorData, double YourActualAltitude)
 {
-  if (sensorData.pressure != -99999.0)
+  if (sensorData->pressure != -99999.)
   {
-    sensorData.seaLevelPressure = sensorData.pressure / pow(1.0 - (YourActualAltitude / 44330.0), 5.255);
+    sensorData->seaLevelPressure = sensorData->pressure / pow(1. - (YourActualAltitude / 44330.), 5.255);
     return true;
   }
   return false;
+}
+
+double BMP3_I2C::calcSeaLevelPressure(double atmosphericPressure, double YourActualAltitude)
+{
+  return atmosphericPressure / pow(1. - (YourActualAltitude / 44330.), 5.255);
+}
+
+double BMP3_I2C::calcAltitude(double atmosphericPressure, double seaLevelPressure)
+{
+  return 44330. * (1. - pow(atmosphericPressure / seaLevelPressure, 0.1902949));
 }
 
 /// protected
@@ -228,11 +237,6 @@ bool BMP3_I2C::setConfig(uint8_t TemperatureOversampling, uint8_t PressureOversa
     return false;
 
   return true;
-}
-
-double BMP3_I2C::calcAltitude(double atmospheriquePressure, double seaLevelPressure)
-{
-  return 44330.0 * (1.0 - pow(atmospheriquePressure / seaLevelPressure, 0.1902949));
 }
 
 /// static

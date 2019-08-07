@@ -1,3 +1,6 @@
+#ifndef _bmp_spi_h
+#define _bmp_spi_h
+
 #include "bmp_i2c.h"
 #include <SPI.h>
 
@@ -12,3 +15,4 @@ public:
     BMP3_SPI(int8_t cspin, int8_t mosipin = -1, int8_t misopin = -1, int8_t sckpin = -1);
     bool init();
 };
+#endif
