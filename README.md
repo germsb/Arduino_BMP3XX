@@ -56,11 +56,19 @@ void loop() {
 ### API:
 
 ```cpp
-bool setSensorInForcedMode(uint8_t TemperatureOversampling = BMP3_NO_OVERSAMPLING, uint8_t PressureOversampling = BMP3_NO_OVERSAMPLING, uint8_t IIRFilter = BMP3_IIR_FILTER_DISABLE);
+bool setSensorInForcedMode(
+    uint8_t TemperatureOversampling = BMP3_NO_OVERSAMPLING,
+    uint8_t PressureOversampling = BMP3_NO_OVERSAMPLING,
+    uint8_t IIRFilter = BMP3_IIR_FILTER_DISABLE);
 ```
 
 ```cpp
-bool setSensorInNormalMode(uint8_t TemperatureOversampling = BMP3_NO_OVERSAMPLING, uint8_t PressureOversampling = BMP3_NO_OVERSAMPLING, uint8_t IIRFilter = BMP3_IIR_FILTER_DISABLE, uint8_t OutputDataRate = BMP3_ODR_200_HZ, bool DataReadyInterrupt = false);
+bool setSensorInNormalMode(
+    uint8_t TemperatureOversampling = BMP3_NO_OVERSAMPLING,
+    uint8_t PressureOversampling = BMP3_NO_OVERSAMPLING,
+    uint8_t IIRFilter = BMP3_IIR_FILTER_DISABLE,
+    uint8_t OutputDataRate = BMP3_ODR_200_HZ,
+    bool DataReadyInterrupt = false);
 ```
 
 ```cpp
