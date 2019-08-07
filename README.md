@@ -2,7 +2,7 @@
 
 ### Bosch BMP3XX sensors series library wrapper for Arduino
 
-You can find more infos [here](https://github.com/BoschSensortec/BMP3-Sensor-API) and [here](https://www.bosch-sensortec.com/bst/products/all_products/bmp388).
+You can find more infos about sensors [here](https://github.com/BoschSensortec/BMP3-Sensor-API) and [here](https://www.bosch-sensortec.com/bst/products/all_products/bmp388).
 
 #
 
@@ -82,7 +82,8 @@ bool setSensorInSleepMode(void);
 - Output data rate: [available settings](https://github.com/germsb/Arduino_BMP3XX/blob/4a495248ebf08482895c5d1506509d28537e38be/bmp3_defs.h#L226-L243)
 
 - DataReadyInterrupt: `true` to get notified when data are ready ([how to](https://www.arduino.cc/reference/en/language/functions/external-interrupts/attachinterrupt/)), `false` otherwise.
-  > Note: Some combinations between oversampling and outputDataRate are not possible and will return an error. This is due to the time needed to convert the data according to the oversampling setting. See [bmp388 datasheet 3.9.1](https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BMP388-DS001.pdf)
+
+> Note: Some combinations between oversampling and outputDataRate are not possible and will return an error. This is due to the time needed to convert the data according to the oversampling setting. See [bmp388 datasheet 3.9.1](https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BMP388-DS001.pdf)
 
 ```cpp
 bool getSensorData(bmp_data *sensorData, bool computeAltitude = false);
